@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Exceptions
+!.gitignore
+!.config/
+!.config/nvim/
+!.config/nvim/**
+!.config/ghostty/
+!.config/ghostty/**
