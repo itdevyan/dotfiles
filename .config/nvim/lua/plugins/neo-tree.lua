@@ -25,6 +25,7 @@ return {
         use_libuv_file_watcher = true,
       },
     })
+    -- Toggle project directory
     vim.keymap.set("n", "<leader>n", function()
       local manager = require("neo-tree.sources.manager")
       local state = manager.get_state("filesystem")
@@ -34,6 +35,7 @@ return {
         vim.cmd("Neotree filesystem reveal left")
       end
     end, { desc = "Toggle Neo-tree" })
+    -- Close project directory
     vim.keymap.set("n", "<leader>N", "<cmd>Neotree close<CR>", { desc = "Close Neo-tree" })
   end
 }

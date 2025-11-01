@@ -1,5 +1,5 @@
 return {
-  'b0o/incline.nvim',
+  "b0o/incline.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons", "SmiteshP/nvim-navic" },
   config = function()
     local helpers = require("incline.helpers")
@@ -38,5 +38,5 @@ return {
     })
   end,
   -- Optional: Lazy load Incline
-  event = 'VeryLazy',
+  event = "VeryLazy",
 }
