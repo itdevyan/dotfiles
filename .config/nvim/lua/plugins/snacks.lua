@@ -34,8 +34,31 @@ return {
       sections = {
         { pane = 1, section = "header" },
         { pane = 1, icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
-        { pane = 1, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-        { pane = 1, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        --{ pane = 1, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+        --{ pane = 1, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        {
+          section = "projects",
+          icon = " ",
+          title = "Projects",
+          indent = 2,
+          padding = 1,
+          limit = 10,
+          items = function()
+            local base = vim.fn.expand("~/BancoChile/Repositorios")
+            local dirs = vim.fn.readdir(base, function(name)
+            return vim.fn.isdirectory(base .. "/" .. name) == 1 end)
+            local items = {}
+            for i, name in ipairs(dirs) do
+              table.insert(items, {
+                icon = " ",
+                desc = name,
+                key = tostring(i), -- numbers 1,2,3,...
+                action = string.format(":cd %s/%s | e .<CR>", base, name),
+              })
+              end
+            return items
+          end,
+        },
         { section = "startup" },
       },
       preset = {
