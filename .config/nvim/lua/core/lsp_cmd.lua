@@ -17,7 +17,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
 
     opts.desc = "Show LSP implementations"
-    keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+    -- keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+    keymap.set("n", "gi", function()
+      local clients = vim.lsp.buf_get_clients(ev.buf)
+      for _, client in ipairs(clients) do
+        if client and client.server_capabilities and client.server_capabilities.implementationProvider then
+          vim.cmd("Telescope lsp_implementations")
+          return
+        end
+      end
+      vim.notify("LSP server does not support implementations", vim.log.levels.WARN)
+    end, opts) -- show lsp implementations
 
     opts.desc = "Show LSP type definitions"
     keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
@@ -33,11 +43,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     opts.desc = "Show line diagnostics"
     keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-    opts.desc = "Go to previous diagnostic"
-    keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = true })
-    end, opts) -- jump to previous diagnostic in buffer
+opts.desc = "Go to previous diagnostic" keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts) -- jump to previous diagnostic in buffer
     --
     opts.desc = "Go to next diagnostic"
     keymap.set("n", "]d", function()
@@ -50,14 +56,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
     opts.desc = "Restart LSP"
     keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
-    opts.desc = "Code actions"
-    keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
   end,
 })
 
 -- vim.lsp.inlay_hint.enable(true)
 
 local severity = vim.diagnostic.severity
+
+
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("java_language_server")
 
 vim.diagnostic.config({
   signs = {
