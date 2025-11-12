@@ -17,17 +17,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
 
     opts.desc = "Show LSP implementations"
-    -- keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-    keymap.set("n", "gi", function()
-      local clients = vim.lsp.buf_get_clients(ev.buf)
-      for _, client in ipairs(clients) do
-        if client and client.server_capabilities and client.server_capabilities.implementationProvider then
-          vim.cmd("Telescope lsp_implementations")
-          return
-        end
-      end
-      vim.notify("LSP server does not support implementations", vim.log.levels.WARN)
-    end, opts) -- show lsp implementations
+    keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+    --keymap.set("n", "gi", function()
+    --  local clients = vim.lsp.buf_get_clients(ev.buf)
+    --  for _, client in ipairs(clients) do
+    --    if client and client.server_capabilities and client.server_capabilities.implementationProvider then
+    --      vim.cmd("Telescope lsp_implementations")
+    --      return
+    --    end
+    --  end
+    --  vim.notify("LSP server does not support implementations", vim.log.levels.WARN)
+    --end, opts) -- show lsp implementations
 
     opts.desc = "Show LSP type definitions"
     keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
@@ -65,7 +65,6 @@ local severity = vim.diagnostic.severity
 
 
 vim.lsp.enable("lua_ls")
-vim.lsp.enable("java_language_server")
 
 vim.diagnostic.config({
   signs = {

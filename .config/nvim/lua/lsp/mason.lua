@@ -7,6 +7,11 @@ return {
       "jdtls",
       "marksman",
     },
+    automatic_enable = {
+      exclude = {
+        "jdtls"
+      }
+    }
   },
   dependencies = {
     {
@@ -22,6 +27,6 @@ return {
       }
     },
     "neovim/nvim-lspconfig",
-    "mfussenegger/nvim-jdtls"
+    "mfussenegger/nvim-jdtls",
   }
 }
