@@ -31,3 +31,5 @@ vim.diagnostic.config({
     },
   },
 })
+
+vim.lsp.enable("jdtls")

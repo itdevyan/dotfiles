@@ -10,7 +10,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local opts = { buffer = event.buf }
     local builtin = require('telescope.builtin')
+
+    opts.desc = "Show hover"
     vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
+
+    opts.desc = "Show definitions"
     vim.keymap.set('n', 'gd', builtin.lsp_definitions, opts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gi', builtin.lsp_implementations, opts)
