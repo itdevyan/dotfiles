@@ -16,12 +16,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     opts.desc = "Show definitions"
     vim.keymap.set('n', 'gd', builtin.lsp_definitions, opts)
+
+    opts.desc = "Show declarations"
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+
+    opts.desc = "Show implementations"
     vim.keymap.set('n', 'gi', builtin.lsp_implementations, opts)
+
+    opts.desc = "Show references"
     vim.keymap.set('n', 'gr', builtin.lsp_references, opts)
+
+    opts.desc = "Show workspace symbos"
     vim.keymap.set('n', 'gs', builtin.lsp_workspace_symbols, opts)
+
+    opts.desc = "Rename"
     vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'x' }, '=', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+
+    opts.desc = "Actions"
     vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, opts)
     vim.keymap.set("n", "g]", '<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>', opts)
     vim.keymap.set("n", "g[", '<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>', opts)
