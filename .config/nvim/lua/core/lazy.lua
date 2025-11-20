@@ -15,16 +15,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
     { import = "plugins" },
     { import = "lsp" }
   },
-  install = { colorscheme = { "catppuccin", "habamax" } },
+  install = { colorscheme = { "catppuccin" } },
   checker = { enabled = true, notify = false, },
   change_detection = { notify = false, },
 })
