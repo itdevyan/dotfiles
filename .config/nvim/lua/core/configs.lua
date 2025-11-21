@@ -18,7 +18,14 @@ vim.diagnostic.config({
       [severity.INFO] = "✔",
     },
   },
+  virtual_lines = true,
+  virtual_text = {
+    current_line = true
+  }
 })
 
 -- Oil commands
 vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open Parent Directory in Oil" })
+
+-- Improved hover
+vim.o.winborder = 'rounded'

@@ -5,6 +5,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
 
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = false})
+    end
+
     -- Disable semantic highlights
     client.server_capabilities.semanticTokensProvider = nil
 
@@ -12,7 +16,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local builtin = require('telescope.builtin')
 
     opts.desc = "Show hover"
-    vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
+    --vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "K", function()
+      vim.lsp.buf.hover({
+        border = "rounded",
+      })
+    end, { buffer = bufnr })
 
     opts.desc = "Show definitions"
     vim.keymap.set('n', 'gd', builtin.lsp_definitions, opts)
@@ -37,6 +46,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, opts)
     vim.keymap.set("n", "g]", '<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>', opts)
     vim.keymap.set("n", "g[", '<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>', opts)
+
   end,
 })
 
@@ -55,9 +65,9 @@ vim.lsp.config('lua_ls', {
 
 vim.lsp.config('ts_ls', {
   on_attach = function(client)
-    vim.opt.tabstop = 2
-    vim.opt.shiftwidth = 2
-    vim.opt.softtabstop = 2
+    vim.opt.tabstop = 4
+    vim.opt.shiftwidth = 4
+    vim.opt.softtabstop = 4
   end
 })
 
