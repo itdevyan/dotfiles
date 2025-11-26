@@ -11,7 +11,7 @@ function M:setup()
     cmd = {
 
       -- 💀
-      "java",       -- or '/path/to/java17_or_newer/bin/java'
+      "/Users/yan/Library/Java/JavaVirtualMachines/ms-21.0.9/Contents/Home/bin/java",       -- or '/path/to/java17_or_newer/bin/java'
       -- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
       "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -63,7 +63,7 @@ function M:setup()
     -- 💀
     -- This is the default if not provided, you can remove it. Or adjust as needed.
     -- One dedicated LSP server & client will be started per unique root_dir
-    root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }),
+    root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "settings.gradle", "pom.xml" }),
 
     -- Here you can configure eclipse.jdt.ls specific settings
     -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -73,8 +73,14 @@ function M:setup()
         configuration = {
           runtimes = {
             {
-              name = "JavaSE-11", path = "/Users/yandiellillo/Library/Java/JavaVirtualMachines/azul-11.0.27/Contents/Home"
-            }
+              name = "JavaSE-25", path = "/Users/yan/Library/Java/JavaVirtualMachines/openjdk-25.0.1/Contents/Home"
+            },
+            {
+              name = "JavaSE-24", path = "/Users/yan/Library/Java/JavaVirtualMachines/azul-24.0.2/Contents/Home"
+            },
+            {
+              name = "JavaSE-17", path = "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
+            },
           }
         }
       },
