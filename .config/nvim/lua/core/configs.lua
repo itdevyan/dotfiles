@@ -29,3 +29,13 @@ vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open Parent Directory
 
 -- Improved hover
 vim.o.winborder = 'rounded'
+
+vim.keymap.set("n", "gl", function() vim.diagnostic.open_float() end, { desc = "Open Diagnostics in float"})
+
+vim.keymap.set("n", "<leader>cf", function() require('conform').format() end, { desc = "Format current file" })
+
+-- Better window navigation
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
