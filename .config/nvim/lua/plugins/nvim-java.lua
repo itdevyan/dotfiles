@@ -1,17 +1,24 @@
 return {
 	"nvim-java/nvim-java",
 	config = function()
-		require("java").setup({
-			jdtls = {
-				version = "1.55.0",
-			},
-			lombok = {
-				enabled = true,
-				version = "nightly",
-			},
-			spring_boot_tools = {
-				enable = true,
-				version = "1.55.1",
+		require("java").setup()
+		vim.lsp.config("jdtls", {
+			settings = {
+				java = {
+					configuration = {
+						runtimes = {
+							{
+								name = "JavaSE-25",
+								path = "/Users/yan/Library/Java/JavaVirtualMachines/openjdk-25.0.1/Contents/Home",
+							},
+							{
+								name = "JavaSE-21",
+								path = "/Users/yan/Library/Java/JavaVirtualMachines/ms-21.0.9/Contents/Home",
+								default = true,
+							},
+						},
+					},
+				},
 			},
 		})
 		vim.lsp.enable("jdtls")

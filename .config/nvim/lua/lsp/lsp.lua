@@ -163,21 +163,6 @@ return {
 					},
 				},
 			},
-			jdtls = {
-				settings = {
-					java = {
-						configuration = {
-							runtimes = {
-								{
-									name = "JavaSE-25",
-									path = "/Users/yan/Library/Java/JavaVirtualMachines/openjdk-25.0.1/Contents/Home",
-									default = true,
-								},
-							},
-						},
-					},
-				},
-			},
 		}
 
 		local ensure_installed = vim.tbl_keys(servers or {})
