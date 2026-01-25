@@ -4,7 +4,7 @@ gtk-tabs-location = hidden
 window-decoration = true
 
 # Font decoration
-font-size = 16
+font-size = 20
 #font-family = "Cascadia Mono NF"
 font-family = "JetbrainsMono Nerd Font Mono"
 #font-family ="MonoLisa Nerd Font"

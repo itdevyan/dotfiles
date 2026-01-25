@@ -16,6 +16,10 @@ return {
 								path = "/Users/yan/Library/Java/JavaVirtualMachines/ms-21.0.9/Contents/Home",
 								default = true,
 							},
+							{
+								name = "JavaSE-17",
+								path = "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home",
+							},
 						},
 					},
 				},
