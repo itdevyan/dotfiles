@@ -1,23 +1,31 @@
-background-opacity = 0.80
-background-blur-radius = 60 
+background-opacity = 0.85
+background-blur-radius = 15
 gtk-tabs-location = hidden
-window-decoration = true
 
 # Font decoration
-font-size = 20
+font-size = 18
 #font-family = "Cascadia Mono NF"
 font-family = "JetbrainsMono Nerd Font Mono"
-#font-family ="MonoLisa Nerd Font"
+#font-family = "MonoLisa Nerd Font"
+#font-family = "Zed Mono"
 font-feature = calt,liga,zero,ss02,ss03,ss07,ss08,ss11
+adjust-cell-width = -5%
 
+window-decoration = true
 window-padding-color = extend
 window-step-resize = false
 window-padding-balance = true
 window-height = 100
 window-width = 100
+window-padding-x = 20
+
+### Mouse configuration
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+copy-on-select = clipboard
 
 ### Mac Alt Fix
-macos-option-as-alt = left
+macos-option-as-alt = true
 
 keybind = alt+left=unbind
 keybind = alt+right=unbind
@@ -33,10 +41,10 @@ keybind = ctrl+shift+h=resize_split:left,10
 keybind = ctrl+shift+l=resize_split:right,10
 
 # Navigation
-keybind = alt+k=goto_split:up
-keybind = alt+j=goto_split:down
-keybind = alt+h=goto_split:left
-keybind = alt+l=goto_split:right
+keybind = ctrl+alt+k=goto_split:up
+keybind = ctrl+alt+j=goto_split:down
+keybind = ctrl+alt+h=goto_split:left
+keybind = ctrl+alt+l=goto_split:right
 
 # Miscellaneous
 keybind = cmd+k=clear_screen

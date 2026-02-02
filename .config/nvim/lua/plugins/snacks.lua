@@ -33,10 +33,36 @@ return {
     dashboard = {
       sections = {
         { pane = 1, section = "header" },
-        { pane = 1, icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
+        { section = "startup", padding = 1 },
+        {
+          pane = 1,
+          icon = " ",
+          title = "Recent Files (Project)",
+          section = "recent_files",
+          -- `cwd = true` will use your current working directory
+          cwd = true,
+          limit = 8,
+          indent = 2,
+          padding = 1,
+        },
+        {
+          pane = 1,
+          icon = " ",
+          title = "Git Status",
+          section = "terminal",
+          enabled = function()
+            return Snacks.git.get_root() ~= nil
+          end,
+          cmd = "git status --short --branch --renames",
+          --height = 2,
+          ttl = 5 * 60,
+          indent = 3,
+          padding = 1,
+        },
+        { pane = 1, icon = " ", title = "Options", section = "keys", indent = 2, padding = 1 },
         --{ pane = 1, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
         --{ pane = 1, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
-        {
+        --[[{
           section = "projects",
           icon = " ",
           title = "Projects",
@@ -58,8 +84,7 @@ return {
               end
             return items
           end,
-        },
-        { section = "startup" },
+        },]]
       },
       preset = {
         header = [[
@@ -71,20 +96,20 @@ return {
 88.  .88 88.  ... 88 .88'  MMMM  MMMM 88.  .88 88    88 
 `88888P8 `88888P' 8888P'   MMMM  MMMM `88888P8 dP    dP 
                            MMMMMMMMMM                   
-                                                        
         ]],
         -- stylua: ignore
         ---@type snacks.dashboard.Item[]
         keys = {
-          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+          --{ icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          --{ icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          --{ icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           --{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
           --{ icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
           { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
           { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = " ", key = "g", desc = "LazyGit", action = ":LazyGit" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
       }

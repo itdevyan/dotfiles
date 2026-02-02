@@ -8,6 +8,8 @@
 !.config/nvim/**
 !.config/ghostty/
 !.config/ghostty/**
+!starship.toml
+!.zshrc
 
 # Re-ignore macOS system files (after re-including folders)
 .config/**/*.DS_Store
