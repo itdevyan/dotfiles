@@ -157,9 +157,25 @@ return {
 			lua_ls = {
 				settings = {
 					Lua = {
+                        runtime = {
+                            version = "LuaJIT",
+                        },
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            library = {
+                              vim.env.VIMRUNTIME,
+                              vim.fn.stdpath("config")
+                            },
+                            checkThirdParty = false,
+                        },
 						completion = {
 							callSnippet = "Replace",
 						},
+                        telemetry = {
+                            enable = false,
+                        },
 					},
 				},
 			},

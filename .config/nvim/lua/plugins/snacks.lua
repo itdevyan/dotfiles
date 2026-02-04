@@ -55,7 +55,7 @@ return {
           end,
           cmd = "git status --short --branch --renames",
           --height = 2,
-          ttl = 5 * 60,
+          ttl = 0,
           indent = 3,
           padding = 1,
         },

@@ -98,3 +98,10 @@ vim.keymap.set("n", "<leader>2", "2gt")
 vim.keymap.set("n", "<leader>3", "3gt")
 vim.keymap.set("n", "<leader>4", "4gt")
 vim.keymap.set("n", "<leader>5", "5gt")
+
+-- Persistent files configuration ( .local/state/nvim/swap)
+local state = vim.fn.stdpath("state")
+vim.opt.directory = state .. "/swap//"
+vim.opt.undodir   = state .. "/undo//"
+vim.opt.backupdir = state .. "/backup//"
+vim.opt.undofile  = true
