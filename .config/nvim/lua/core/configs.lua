@@ -21,6 +21,9 @@ vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
 vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
 vim.api.nvim_set_keymap("i", "kk", "<Esc>", { noremap = false })
 
+-- Clear search highlights
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
 -- Moving lines
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { silent = true })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { silent = true })
@@ -54,6 +57,9 @@ vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open Parent Directory
 
 -- Improved hover
 vim.o.winborder = "rounded"
+
+-- Split border color (yellow)
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#f9e2af", bold = true })
 
 vim.keymap.set("n", "gl", function()
 	vim.diagnostic.open_float()

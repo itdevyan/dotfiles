@@ -38,7 +38,7 @@ return {
 			python = { "flake8" },
 			javascript = { "eslint" },
 			typescript = { "eslint" },
-			java = { "checkstyle" },
+			--java = { "checkstyle" },
 		}
 
 		-- auto lint on save

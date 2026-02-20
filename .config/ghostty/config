@@ -1,15 +1,27 @@
-background-opacity = 0.85
-background-blur-radius = 15
+background-opacity = 0.90
+background-blur-radius = 10
 gtk-tabs-location = hidden
 
 # Font decoration
+# Valid font names
+# fc-list | grep -i jetbrainsmononerdfontmono
 font-size = 18
-#font-family = "Cascadia Mono NF"
-font-family = "JetbrainsMono Nerd Font Mono"
-#font-family = "MonoLisa Nerd Font"
-#font-family = "Zed Mono"
-font-feature = calt,liga,zero,ss02,ss03,ss07,ss08,ss11
-adjust-cell-width = -5%
+font-family = "JetBrainsMono Nerd Font Mono"
+#font-family = "MonoLisa Freeze" # work
+#font-family = "TX-02 Retina" # work
+adjust-cell-width = -10%
+font-feature = -calt
+font-feature = +zero
+font-feature = -ss01
+font-feature = +ss02
+font-feature = +ss19
+font-feature = +cv03
+font-feature = -cv08
+font-feature = +cv14
+font-feature = +cv18
+font-feature = +cv19
+font-feature = +cv20
+font-feature = +cv99
 
 window-decoration = true
 window-padding-color = extend
@@ -72,3 +84,7 @@ foreground = f3f6f9
 cursor-color = e0c15a
 selection-background = 263356
 selection-foreground = f3f6f9
+
+
+custom-shader = shaders/cursor_sweep.glsl
+custom-shader-animation = always

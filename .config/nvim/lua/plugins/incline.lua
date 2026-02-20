@@ -1,18 +1,9 @@
 return {
 	"b0o/incline.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons", "SmiteshP/nvim-navic" },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local helpers = require("incline.helpers")
-		local navic = require("nvim-navic")
 		local devicons = require("nvim-web-devicons")
-
-		navic.setup({
-			lsp = {
-				auto_attach = true,
-			},
-			highlight = true,
-			depth_limit = 5,
-		})
 
 		require("incline").setup({
 			window = {
@@ -20,29 +11,34 @@ return {
 				margin = { horizontal = 0, vertical = 0 },
 			},
 			render = function(props)
-				local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":.")
-				if filename == "" then
-					filename = "[No Name]"
+				local function get_project_name()
+					local ok, project_nvim = pcall(require, "project_nvim.project")
+					if not ok then
+						return nil
+					end
+					local root = project_nvim.get_project_root()
+					if not root or root == "" then
+						return nil
+					end
+					return vim.fn.fnamemodify(root, ":t")
+				end
+				local full = vim.api.nvim_buf_get_name(props.buf)
+				local filename = vim.fn.fnamemodify(full, ":t")
+				local parent = vim.fn.fnamemodify(full, ":h:t")
+				local textToShow = (parent ~= "" and (parent .. "/") or "") .. filename
+				if textToShow == "" then
+					textToShow = "[No Name]"
 				end
 				local ft_icon, ft_color = devicons.get_icon_color(filename)
 				local modified = vim.bo[props.buf].modified
-				local res = {
+				return {
 					ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
 					" ",
-					{ filename, gui = modified and "bold,italic" or "bold" },
-					guibg = "#44406e",
+					{ get_project_name(), gui = "bold" },
+					"  ",
+					{ textToShow, gui = modified and "italic" or "" },
+					guibg = "#1e1e2e",
 				}
-				if props.focused then
-					for _, item in ipairs(navic.get_data(props.buf) or {}) do
-						table.insert(res, {
-							{ " > ", group = "NavicSeparator" },
-							{ item.icon, group = "NavicIcons" .. item.type },
-							{ item.name, group = "NavicText" },
-						})
-					end
-				end
-				table.insert(res, " ")
-				return res
 			end,
 		})
 	end,

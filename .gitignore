@@ -3,11 +3,13 @@
 
 # Exceptions
 !.gitignore
+!.gitmodules
 !.config/
 !.config/nvim/
 !.config/nvim/**
 !.config/ghostty/
 !.config/ghostty/**
+!.config/ghostty/shaders/**
 !starship.toml
 !.zshrc
 
