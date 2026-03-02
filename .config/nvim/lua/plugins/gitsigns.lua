@@ -1,6 +1,7 @@
 return {
     "lewis6991/gitsigns.nvim",         -- plugin repo
-    dependencies = { "nvim-lua/plenary.nvim" },  -- optional but often needed
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require('gitsigns').setup {
         signs = {

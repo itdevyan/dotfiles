@@ -4,7 +4,14 @@ return {
   -- dependencies = { "nvim-tree/nvim-web-devicons" },
   -- or if using mini.icons/mini.nvim
   dependencies = { "nvim-mini/mini.icons" },
+  event = "VeryLazy",
   opts = {},
+  config = function(_, opts)
+    local fzf = require("fzf-lua")
+    fzf.setup(opts)
+    -- Replace telescope-ui-select: register fzf-lua as vim.ui.select provider
+    fzf.register_ui_select()
+  end,
   keys = {
     {
       "<leader>fb",

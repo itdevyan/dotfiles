@@ -1,43 +1,87 @@
--- Globals --------------------------------------------------------------------
-vim.g.maplocalleader = ","
-vim.g.big_file = { size = 1024 * 5000, lines = 50000 }
-vim.g.mapleader = " "
+-- Keymaps ====================================================================
 
--- Base configs
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
-vim.opt.smarttab = true
-vim.opt.smartindent = true
-vim.opt.autoindent = true
-vim.opt.breakindent = false
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.cursorline = true
-vim.opt.undofile = true
-vim.opt.showmode = false
+-- Toggle wrap
+vim.keymap.set("n", "<leader>ww", function()
+	vim.wo.wrap = not vim.wo.wrap
+end, { desc = "Toggle wrap" })
 
--- Disable wrap by default
-vim.opt.wrap = false
+-- Finding selected text
+vim.keymap.set("v", "//", 'y/<C-R>"<CR>', { desc = "Find selected text" })
 
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+-- Copy to clipboard
+vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy to clipboard" })
 
-vim.opt.signcolumn = "yes"
+-- Paste from clipboard
+vim.keymap.set("n", "<leader>p", '"+p', { desc = "Paste from clipboard" })
+vim.keymap.set("v", "<leader>p", '"+p', { desc = "Paste from clipboard" })
 
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+-- Cut to clipboard
+vim.keymap.set("v", "<leader>x", '"+x', { desc = "Cut to clipboard" })
 
-vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+-- Escape commands
+vim.keymap.set("i", "jj", "<Esc>")
+vim.keymap.set("i", "jk", "<Esc>")
+vim.keymap.set("i", "kk", "<Esc>")
 
-vim.opt.scrolloff = 12
+-- Clear search highlights
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-    group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
-    pattern = "*",
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    desc = "Highlight yank",
-})
+-- Moving lines
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { silent = true })
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { silent = true })
+
+-- Indent with Tab
+vim.keymap.set("v", "<Tab>", ">gv")
+vim.keymap.set("v", "<S-Tab>", "<gv")
+
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { silent = true })
+
+-- Oil commands
+vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open Parent Directory in Oil" })
+
+-- Diagnostics
+vim.keymap.set("n", "gl", function()
+	vim.diagnostic.open_float()
+end, { desc = "Open Diagnostics in float" })
+
+-- Format
+vim.keymap.set("n", "<leader>lf", function()
+	require("conform").format()
+end, { desc = "Format current file" })
+
+-- Better window navigation
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
+
+-- nvim-java
+-- Runner commands
+vim.keymap.set("n", "<leader>jrr", "<cmd>JavaRunnerRunMain<CR>", { desc = "[Run] Runs the application main class" })
+vim.keymap.set("n", "<leader>jrs", "<cmd>JavaRunnerStopMain<CR>", { desc = "[Run] Stops the running application" })
+
+-- Build commands
+vim.keymap.set("n", "<leader>jbc", "<cmd>JavaBuildCleanWorkspace<CR>", { desc = "[Build] Clear the workspace cache" })
+vim.keymap.set("n", "<leader>jbb", "<cmd>JavaBuildBuildWorkspace<CR>", { desc = "[Build] Builds a full workspace" })
+
+-- DAP commands
+vim.keymap.set("n", "<leader>jdc", "<cmd>JavaTestDebugCurrentClass<CR>", { desc = "[Debug] Debug current class" })
+vim.keymap.set("n", "<leader>jdm", "<cmd>JavaTestDebugCurrentMethod<CR>", { desc = "[Debug] Debug current method" })
+vim.keymap.set("n", "<leader>jdo", function() require("dap").step_over() end, { desc = "[Debug] Step over" })
+vim.keymap.set("n", "<leader>jdb", function() require("dap").step_back() end, { desc = "[Debug] Step back" })
+vim.keymap.set("n", "<leader>jdg", function() require("dap").continue() end, { desc = "[Debug] Start/Continue debugging" })
+vim.keymap.set("n", "<leader>jds", function() require("dap").toggle_breakpoint() end, { desc = "[Debug] Toggle breakpoint" })
+
+-- Settings
+vim.keymap.set("n", "<leader>js", "<cmd>JavaSettingsChangeRuntime<CR>", { desc = "Change SDK version" })
+
+-- Tabs config
+vim.keymap.set("n", "<leader>tn", ":tabnew<CR>")
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>")
+
+vim.keymap.set("n", "<leader>1", "1gt")
+vim.keymap.set("n", "<leader>2", "2gt")
+vim.keymap.set("n", "<leader>3", "3gt")
+vim.keymap.set("n", "<leader>4", "4gt")
+vim.keymap.set("n", "<leader>5", "5gt")

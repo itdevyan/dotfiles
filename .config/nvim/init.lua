@@ -1,6 +1,3 @@
-require("core.keymaps")
-require("core.lazy")
-require("core.configs")
-require("core.utils")
-require("core.icons.icons")
-require("core.icons.fallback_icons")
+require("core.configs")  -- options & settings (must be first for mapleader)
+require("core.keymaps")  -- keybindings
+require("core.lazy")    -- plugin manager

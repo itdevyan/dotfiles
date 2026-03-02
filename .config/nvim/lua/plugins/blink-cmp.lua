@@ -59,8 +59,14 @@ return {
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "emoji" },
+			default = { "lazydev", "lsp", "path", "snippets", "buffer", "emoji" },
 			providers = {
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority for Lua files
+					score_offset = 100,
+				},
 				emoji = {
 					module = "blink-emoji",
 					name = "Emoji",

@@ -3,11 +3,11 @@ return {
   event = "VeryLazy",
   opts = {
     lsp = {
-      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+      -- override markdown rendering so that plugins use Treesitter
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        -- NOTE: cmp.entry.get_documentation is nvim-cmp only; not needed with blink.cmp
       },
     },
     -- you can enable a preset for easier configuration

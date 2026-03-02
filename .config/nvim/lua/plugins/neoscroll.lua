@@ -1,5 +1,6 @@
 return {
  "karb94/neoscroll.nvim",
+  event = "VeryLazy",
   opts = {
    -- <C-u>	Scroll Up	Scroll down half a screen (moves the viewport up).
    -- <C-d>	Scroll Down	Scroll down half a screen (moves the viewport down).
