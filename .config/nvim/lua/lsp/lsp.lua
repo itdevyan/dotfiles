@@ -8,7 +8,7 @@ return {
 		{
 			"mason-org/mason-lspconfig.nvim",
 			opts = {
-				ensure_installed = { "lua_ls" },
+				ensure_installed = { "lua_ls", "ts_ls" },
 				-- Automatically calls vim.lsp.enable() for installed servers.
 				-- Servers start lazily when a matching filetype buffer is opened.
 				automatic_enable = {
@@ -35,15 +35,25 @@ return {
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
+				map("[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev [D]iagnostic")
+				map("]d", function() vim.diagnostic.jump({ count = 1,  float = true }) end, "Next [D]iagnostic")
 				map("gn", vim.lsp.buf.rename, "[R]e[n]ame")
 				map("ga", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
-				map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
-				map("gi", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
-				map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
+				map("gr", function()
+					require("fzf-lua").lsp_references({ jump1 = false })
+				end, "[G]oto [R]eferences")
+				map("gi", function()
+					require("fzf-lua").lsp_implementations({ jump1 = false })
+				end, "[G]oto [I]mplementation")
+				map("gd", function()
+					require("fzf-lua").lsp_definitions({ jump1 = false })
+				end, "[G]oto [D]efinition")
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 				map("gO", require("fzf-lua").lsp_document_symbols, "Open Document Symbols")
 				map("gW", require("fzf-lua").lsp_live_workspace_symbols, "Open Workspace Symbols")
-				map("gt", require("fzf-lua").lsp_typedefs, "[G]oto [T]ype Definition")
+				map("gt", function()
+					require("fzf-lua").lsp_typedefs({ jump1 = false })
+				end, "[G]oto [T]ype Definition")
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 
@@ -61,7 +71,7 @@ return {
 						callback = vim.lsp.buf.clear_references,
 					})
 					vim.api.nvim_create_autocmd("LspDetach", {
-						group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+						group = vim.api.nvim_create_augroup("lsp-detach", { clear = false }),
 						callback = function(event2)
 							vim.lsp.buf.clear_references()
 							vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })

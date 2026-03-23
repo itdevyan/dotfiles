@@ -15,7 +15,7 @@ return {
 		-- Enable automatic formatting on save
 		--format_on_save = {
 		--timeout_ms = 500,
-		--lsp_fallback = true, -- Use LSP formatting if no formatter is found
+		--lsp_format = "fallback", -- Use LSP formatting if no formatter is found
 		--},
 	},
 }

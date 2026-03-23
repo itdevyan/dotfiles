@@ -16,7 +16,7 @@ vim.opt.breakindent = false
 
 -- Line numbers
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 
 -- UI
 vim.opt.cursorline = true

@@ -1,15 +1,15 @@
-background-opacity = 0.90
-background-blur-radius = 10
+background-opacity = 0.85
+background-blur-radius = 15
 gtk-tabs-location = hidden
 
 # Font decoration
 # Valid font names
 # fc-list | grep -i jetbrainsmononerdfontmono
-font-size = 18
+font-size = 19
 font-family = "JetBrainsMono Nerd Font Mono"
 #font-family = "MonoLisa Freeze" # work
 #font-family = "TX-02 Retina" # work
-adjust-cell-width = -10%
+adjust-cell-width = -2
 font-feature = -calt
 font-feature = +zero
 font-feature = -ss01
