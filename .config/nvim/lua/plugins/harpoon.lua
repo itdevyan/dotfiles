@@ -7,7 +7,18 @@ return {
 		local harpoon = require("harpoon")
 
 		-- REQUIRED
-		harpoon:setup()
+		harpoon:setup({
+			default = {
+				display = function(list_item)
+					local tail = vim.fn.fnamemodify(list_item.value, ":t")
+					local parent = vim.fn.fnamemodify(list_item.value, ":h:t")
+					if parent and parent ~= "" and parent ~= "." then
+						return parent .. "/" .. tail
+					end
+					return tail
+				end,
+			},
+		})
 		-- REQUIRED
 
 		vim.keymap.set("n", "<leader>a", function()

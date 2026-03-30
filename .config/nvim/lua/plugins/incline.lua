@@ -27,19 +27,21 @@ return {
 					textToShow = "[No Name]"
 				end
 				local ft_icon, ft_color = devicons.get_icon_color(filename)
+                local ft_black = "#000000"
                 local bg_peach = "#ffe5b4"
-                local ft_peach = "#000000"
+                local bg_love_green = "#A6E3A1"
 				local modified = vim.bo[props.buf].modified
+                local background = modified and bg_peach or bg_love_green
 				return {
 					ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
 					{ get_project_name(), gui = "bold", guibg = ft_color, guifg = ft_color and helpers.contrast_color(ft_color) or nil },
 					{ " ", gui = "bold", guibg = ft_color, guifg = ft_color and helpers.contrast_color(ft_color) or nil },
-					{ "", guifg = ft_color, guibg = bg_peach },
-                    { " ", guibg = bg_peach },
-					{ textToShow, guifg = ft_peach, gui = modified and "italic" or "" },
-                    { " ", guibg = bg_peach },
-					{ "", guifg = bg_peach, guibg = ft_peach },
-					guibg = bg_peach,
+					{ "", guifg = ft_color, guibg = background },
+                    { " ", guibg = background },
+					{ textToShow, guifg = ft_black },
+                    { " ", guibg = background },
+					{ "", guifg = background, guibg = ft_black },
+					guibg = background,
 				}
 			end,
 		})

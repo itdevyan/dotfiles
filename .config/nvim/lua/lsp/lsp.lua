@@ -123,8 +123,6 @@ return {
 		require("mason-tool-installer").setup({
 			ensure_installed = {
 				"stylua",
-				"black",
-				"isort",
 				"flake8",
 				"prettierd",
 				"prettier",

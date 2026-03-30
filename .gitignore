@@ -10,7 +10,7 @@
 !.config/ghostty/
 !.config/ghostty/**
 !.config/ghostty/shaders/**
-!starship.toml
+!.tmux.conf
 !.zshrc
 
 # Re-ignore macOS system files (after re-including folders)

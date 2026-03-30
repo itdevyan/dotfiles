@@ -8,13 +8,25 @@ return {
   },
   lazy = false, -- neo-tree will lazily load itself
   config = function()
+    local open_or_system = function(state)
+      local node = state.tree:get_node()
+      if node.type == "directory" then
+        require("neo-tree.sources.filesystem.commands").toggle_node(state)
+      elseif node.path:match("%.pdf$") then
+        vim.fn.jobstart({ "open", node.path }, { detach = true })
+      else
+        require("neo-tree.sources.filesystem.commands").open(state)
+      end
+    end
+
     local neotree = require("neo-tree")
     neotree.setup({
       filesystem = {
         window = {
           mappings = {
             ["h"] = "close_node",       -- Navigate to parent directory
-            ["l"] = "open",             -- Open file or expand directory
+            ["l"] = open_or_system,     -- Open file or expand directory (PDFs open with system app)
+            ["<cr>"] = open_or_system,  -- Same behavior for Enter key
           },
         },
         filtered_items = {

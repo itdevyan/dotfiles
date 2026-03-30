@@ -66,6 +66,7 @@ vim.keymap.set("n", "<leader>jbc", "<cmd>JavaBuildCleanWorkspace<CR>", { desc = 
 vim.keymap.set("n", "<leader>jbb", "<cmd>JavaBuildBuildWorkspace<CR>", { desc = "[Build] Builds a full workspace" })
 
 -- DAP commands
+vim.keymap.set("n", "<leader>jda", "<cmd>JavaTestRunAllTests<CR>", { desc = "[Debug] Debug all tests" })
 vim.keymap.set("n", "<leader>jdc", "<cmd>JavaTestDebugCurrentClass<CR>", { desc = "[Debug] Debug current class" })
 vim.keymap.set("n", "<leader>jdm", "<cmd>JavaTestDebugCurrentMethod<CR>", { desc = "[Debug] Debug current method" })
 vim.keymap.set("n", "<leader>jdo", function() require("dap").step_over() end, { desc = "[Debug] Step over" })
