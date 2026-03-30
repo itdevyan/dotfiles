@@ -10,6 +10,7 @@
 !.config/ghostty/
 !.config/ghostty/**
 !.config/ghostty/shaders/**
+!.config/starship.toml
 !.tmux.conf
 !.zshrc
 
