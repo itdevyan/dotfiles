@@ -10,8 +10,8 @@ return {
     }
 
     require("nvim-treesitter").install {
-      "lua", "java", "javascript", "typescript", "html",
-      "vim", "query", -- useful for nvim config and ts query files
+      "lua", "java", "javascript", "typescript", "tsx", "html",
+      "vim", "query", "json", "xml" -- useful for nvim config and ts query files
     }
 
     -- Enable treesitter highlighting, indentation, and folding per filetype,

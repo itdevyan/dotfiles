@@ -8,7 +8,7 @@ return {
 		{
 			"mason-org/mason-lspconfig.nvim",
 			opts = {
-				ensure_installed = { "lua_ls", "ts_ls" },
+				ensure_installed = { "lua_ls", "ts_ls", "jsonls", "yamlls" },
 				-- Automatically calls vim.lsp.enable() for installed servers.
 				-- Servers start lazily when a matching filetype buffer is opened.
 				automatic_enable = {
@@ -81,7 +81,7 @@ return {
 
 				-- Inlay hints toggle
 				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-					map("<leader>ch", function()
+					map("<leader>lh", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 					end, "Toggle Inlay [H]ints")
 				end
@@ -104,6 +104,7 @@ return {
 			virtual_text = {
 				source = "if_many",
 				spacing = 2,
+                current_line = true,
 			},
 		})
 
@@ -118,6 +119,33 @@ return {
 				},
 			},
 		})
+
+        vim.lsp.config("ts_ls", {
+            settings = {
+                typescript = {
+                    inlayHints = {
+                        includeInlayParameterNameHints = "all",
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayEnumMemberValueHints = true,
+                    },
+                },
+                javascript = {
+                    inlayHints = {
+                        includeInlayParameterNameHints = "literals",
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayEnumMemberValueHints = true,
+                    },
+                },
+            },
+        })
 
 		-- Ensure tools are installed (formatters, linters, etc.)
 		require("mason-tool-installer").setup({

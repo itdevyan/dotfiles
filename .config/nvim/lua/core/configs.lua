@@ -25,7 +25,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.wrap = false
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
-vim.opt.scrolloff = 12
+vim.opt.scrolloff = 4
 vim.o.winborder = "rounded"
 
 -- Search

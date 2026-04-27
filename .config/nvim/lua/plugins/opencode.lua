@@ -1,39 +1,61 @@
 return {
 	"NickvanDyke/opencode.nvim",
+	version = "*", -- Latest stable release
 	dependencies = {
 		-- Recommended for `ask()` and `select()`.
-		-- Required for `snacks` provider.
 		---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-		{ "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+		{
+			"folke/snacks.nvim",
+			optional = true,
+			opts = {
+				input = {}, -- Enhances `ask()`
+				picker = { -- Enhances `select()`
+					actions = {
+						opencode_send = function(...) return require("opencode").snacks_picker_send(...) end,
+					},
+					win = {
+						input = {
+							keys = {
+								["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
+							},
+						},
+					},
+				},
+				terminal = {},
+			},
+		},
 	},
 	config = function()
 		---@type opencode.Opts
 		vim.g.opencode_opts = {
-			filetypes = {
-				"lua",
-				"java",
-				"javascript",
-				"typescript",
-				"javascriptreact",
-				"typescriptreact",
-				"python",
-				"go",
-				"rust",
-				"c",
-				"cpp",
-				"markdown",
-				"yaml",
-				"json",
-				"toml",
-				"xml",
-				"html",
-				"css",
-				"scss",
-				"sh",
-				"bash",
-				"zsh",
-				"dockerfile",
-				"sql",
+			lsp = {
+				enabled = false, -- Set to true to try the experimental LSP feature
+				filetypes = {
+					"lua",
+					"java",
+					"javascript",
+					"typescript",
+					"javascriptreact",
+					"typescriptreact",
+					"python",
+					"go",
+					"rust",
+					"c",
+					"cpp",
+					"markdown",
+					"yaml",
+					"json",
+					"toml",
+					"xml",
+					"html",
+					"css",
+					"scss",
+					"sh",
+					"bash",
+					"zsh",
+					"dockerfile",
+					"sql",
+				},
 			},
 		}
 

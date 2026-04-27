@@ -1,5 +1,11 @@
 return {
 	"nvim-java/nvim-java",
+    dependencies = {
+       {
+         "JavaHello/spring-boot.nvim",
+         commit = "98c6ff1",  -- or leave branch = "main", commit = nil
+       },
+     },
 	config = function()
 		require("java").setup()
 		vim.lsp.config("jdtls", {

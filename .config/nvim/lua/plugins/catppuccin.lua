@@ -5,15 +5,15 @@ return {
 	opts = {
 		background = {
 			light = "latte",
-			dark = "mocha",
+			dark = "macchiato",
 		},
 		default_integrations = true,
 		auto_integrations = true,
-		transparent_background = true,
-		float = {
-			transparent = true,
-			solid = true,
-		},
+		-- transparent_background = true,
+		--float = {
+		--	transparent = true,
+		--	solid = true,
+		--},
 		styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
 			comments = { "italic" },
 			functions = { "bold" },
