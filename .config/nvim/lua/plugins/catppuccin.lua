@@ -9,11 +9,11 @@ return {
 		},
 		default_integrations = true,
 		auto_integrations = true,
-		-- transparent_background = true,
-		--float = {
-		--	transparent = true,
-		--	solid = true,
-		--},
+		transparent_background = true,
+		float = {
+		    transparent = true,
+		    solid = true,
+		},
 		styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
 			comments = { "italic" },
 			functions = { "bold" },
@@ -36,6 +36,6 @@ return {
 	},
 	config = function(_, opts)
 		require("catppuccin").setup(opts)
-		vim.cmd.colorscheme("catppuccin-mocha")
+		vim.cmd.colorscheme("catppuccin-macchiato")
 	end,
 }

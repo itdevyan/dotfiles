@@ -8,6 +8,9 @@ end, { desc = "Toggle wrap" })
 -- Finding selected text
 vim.keymap.set("v", "//", 'y/<C-R>"<CR>', { desc = "Find selected text" })
 
+-- Open finder
+vim.keymap.set("n", "<leader>o", ":!open -R %<CR>", { desc = "Open Finder" })
+
 -- Copy to clipboard
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy to clipboard" })
 
@@ -71,10 +74,44 @@ vim.keymap.set("n", "<leader>jdc", "<cmd>JavaTestDebugCurrentClass<CR>", { desc 
 vim.keymap.set("n", "<leader>jdm", "<cmd>JavaTestDebugCurrentMethod<CR>", { desc = "[Debug] Debug current method" })
 vim.keymap.set("n", "<leader>jdv", "<cmd>DapViewOpen<CR>", { desc = "[Debug] Open Dap View UI" })
 vim.keymap.set("n", "<leader>jdV", "<cmd>DapViewClose<CR>", { desc = "[Debug] Close Dap View UI" })
+vim.keymap.set("n", "<leader>jdt", "<cmd>DapTerminate<CR>", { desc = "[Debug] Terminate" })
 vim.keymap.set("n", "<leader>jdo", function() require("dap").step_over() end, { desc = "[Debug] Step over" })
 vim.keymap.set("n", "<leader>jdb", function() require("dap").step_back() end, { desc = "[Debug] Step back" })
 vim.keymap.set("n", "<leader>jdg", function() require("dap").continue() end, { desc = "[Debug] Start/Continue debugging" })
 vim.keymap.set("n", "<leader>jds", function() require("dap").toggle_breakpoint() end, { desc = "[Debug] Toggle breakpoint" })
+
+-- Maven
+local maven_opts = table.concat({
+  "--add-opens jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+  "--add-opens jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+}, " ")
+
+local lombok = "-Dlombok.version=1.18.30"
+local function run_maven(args)
+  local cmd
+  if args == "clean" then
+    cmd = "mvn clean"
+  else
+    cmd = string.format('MAVEN_OPTS="%s" mvn %s %s', maven_opts, args, lombok)
+  end
+  vim.cmd("botright split | terminal " .. cmd)
+  vim.cmd("resize 15")
+end
+
+vim.keymap.set("n", "<leader>jmi", function() run_maven("install") end, { desc = "[Maven] Install" })
+vim.keymap.set("n", "<leader>jmI", function() run_maven("install -DskipTests") end, { desc = "[Maven] Install without test" })
+vim.keymap.set("n", "<leader>jmp", function() run_maven("package") end, { desc = "[Maven] Package" })
+vim.keymap.set("n", "<leader>jmx", function() run_maven("clean") end, { desc = "[Maven] Clean" })
+vim.keymap.set("n", "<leader>jmc", function() run_maven("compile") end, { desc = "[Maven] Compile" })
 
 -- Settings
 vim.keymap.set("n", "<leader>js", "<cmd>JavaSettingsChangeRuntime<CR>", { desc = "Change SDK version" })

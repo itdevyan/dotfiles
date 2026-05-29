@@ -73,5 +73,40 @@ return {
       function() require('fzf-lua').lgrep_curbuf() end,
       desc = "[/] Live grep the current buffer"
     },
+    {
+      "<leader>gs",
+      function() require('fzf-lua').git_status() end,
+      desc = "[G]it [S]tatus"
+    },
+    {
+      "<leader>gd",
+      function() require('fzf-lua').git_diff() end,
+      desc = "[G]it [D]iff"
+    },
+    {
+      "<leader>gb",
+      function() require('fzf-lua').git_blame() end,
+      desc = "[G]it [B]lame"
+    },
+    {
+      "<leader>gr",
+      function() require('fzf-lua').git_branches() end,
+      desc = "[G]it b[R]anches"
+    },
+    {
+        "<leader>gc",
+        function() require('fzf-lua').git_commits() end,
+        desc = "[G]it [C]ommits"
+    },
+    {
+        "<leader>gC",
+        function() require('fzf-lua').git_bcommits() end,
+        desc = "[G]it [C]ommits for current buffer"
+    },
+    {
+        "<leader>gS",
+        function() require('fzf-lua').git_stash() end,
+        desc = "[G]it [S]tash"
+    },
   },
 }

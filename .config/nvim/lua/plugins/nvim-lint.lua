@@ -36,8 +36,8 @@ return {
 		lint.linters_by_ft = {
 			lua = { "luacheck" },
 			python = { "flake8" },
-			javascript = { "eslint" },
-			typescript = { "eslint" },
+			javascript = { "eslint_d" },
+			typescript = { "eslint_d" },
 			--java = { "checkstyle" },
 		}
 

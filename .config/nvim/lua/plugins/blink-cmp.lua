@@ -30,7 +30,42 @@ return {
 		-- C-k: Toggle signature help (if signature.enabled = true)
 		--
 		-- See :h blink-cmp-config-keymap for defining your own keymap
-		keymap = { preset = "super-tab" },
+		keymap = {
+			preset = "super-tab",
+			["<Tab>"] = {
+				function(cmp)
+					if cmp.snippet_active() then
+						return cmp.accept()
+					end
+				end,
+				function(cmp)
+					if cmp.is_visible() then
+						return cmp.select_and_accept()
+					end
+				end,
+				function()
+					if vim.fn["copilot#GetDisplayedSuggestion"]().text ~= "" then
+						vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](""), "i", true)
+						return true
+					end
+				end,
+				"fallback",
+			},
+			["<CR>"] = {
+				function(cmp)
+					if cmp.is_visible() then
+						return cmp.select_and_accept()
+					end
+				end,
+				function()
+					if vim.fn["copilot#GetDisplayedSuggestion"]().text ~= "" then
+						vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](""), "i", true)
+						return true
+					end
+				end,
+				"fallback",
+			},
+		},
 
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
