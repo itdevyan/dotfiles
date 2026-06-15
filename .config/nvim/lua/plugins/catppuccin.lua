@@ -3,16 +3,12 @@ return {
 	name = "catppuccin",
 	priority = 1000,
 	opts = {
-		background = {
-			light = "latte",
-			dark = "macchiato",
-		},
 		default_integrations = true,
 		auto_integrations = true,
 		transparent_background = true,
 		float = {
-		    transparent = true,
-		    solid = true,
+		    transparent = false,
+		    solid = false,
 		},
 		styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
 			comments = { "italic" },
@@ -36,6 +32,6 @@ return {
 	},
 	config = function(_, opts)
 		require("catppuccin").setup(opts)
-		vim.cmd.colorscheme("catppuccin-macchiato")
+		vim.cmd.colorscheme("catppuccin-mocha")
 	end,
 }

@@ -5,6 +5,10 @@ vim.keymap.set("n", "<leader>ww", function()
 	vim.wo.wrap = not vim.wo.wrap
 end, { desc = "Toggle wrap" })
 
+-- Delete and change to the beginning of the text
+vim.keymap.set('n', 'dh', 'd^', { desc = "Delete backwards to the beginning of the text" })
+vim.keymap.set('n', 'ch', 'c^', { desc = "Delete backwards to the beginning of the text and change" })
+
 -- Finding selected text
 vim.keymap.set("v", "//", 'y/<C-R>"<CR>', { desc = "Find selected text" })
 

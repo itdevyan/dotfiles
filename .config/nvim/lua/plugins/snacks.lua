@@ -6,7 +6,7 @@ return {
   opts = {
     bigfile = { enabled = true },
     explorer = { enabled = true },
-    indent = { enabled = true },
+    indent = { enabled = false },
     input = { enabled = true },
     picker = {
       enabled = true,
@@ -23,9 +23,9 @@ return {
     },
     notifier = { enabled = true },
     quickfile = { enabled = true },
-    scope = { enabled = true },
+    scope = { enabled = false },
     scroll = { enabled = false }, -- using neoscroll.nvim instead
-    statuscolumn = { enabled = true },
+    statuscolumn = { enabled = false },
     words = { enabled = true },
     lazygit = {
       enabled = true,

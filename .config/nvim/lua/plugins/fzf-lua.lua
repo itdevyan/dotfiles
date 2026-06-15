@@ -34,9 +34,9 @@ return {
       desc = "[F]ind by [G]repping in project directory"
     },
     {
-      "<leader><leader>",
+      "<leader>fs",
       function() require('fzf-lua').buffers() end,
-      desc = "[F]ind [B]uffers in Current Session"
+      desc = "[F]ind Buffers in Current [S]ession"
     },
     {
       "<leader>fc",

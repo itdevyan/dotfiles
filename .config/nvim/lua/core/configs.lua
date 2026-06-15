@@ -19,12 +19,13 @@ vim.opt.number = true
 vim.opt.relativenumber = false
 
 -- UI
+vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.showmode = false
 vim.opt.signcolumn = "yes"
 vim.opt.wrap = false
-vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+vim.opt.list = false
+--vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.scrolloff = 4
 vim.o.winborder = "rounded"
 
