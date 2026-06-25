@@ -40,15 +40,110 @@ return {
 				map("gn", vim.lsp.buf.rename, "[R]e[n]ame")
 				map("ga", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
 				map("gr", function()
-					require("fzf-lua").lsp_references({ jump1 = false })
+					require("fzf-lua").lsp_references({ jump1 = false, ignore_current_line = true, unique_line_items = true })
 				end, "[G]oto [R]eferences")
-				map("gi", function()
-					require("fzf-lua").lsp_implementations({ jump1 = false })
+				map("gI", function()
+					require("fzf-lua").lsp_implementations({ jump1 = false, ignore_current_line = true, includeDeclaration = false, unique_line_items = true })
 				end, "[G]oto [I]mplementation")
 				map("gd", function()
-					require("fzf-lua").lsp_definitions({ jump1 = false })
+					require("fzf-lua").lsp_definitions({ jump1 = false, ignore_current_line = true, unique_line_items = true})
 				end, "[G]oto [D]efinition")
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+                				map("gp", function()
+					local c = vim.lsp.get_clients({ bufnr = 0 })[1]
+					if not c then return end
+					local params = vim.lsp.util.make_position_params(0, c.offset_encoding)
+					vim.lsp.buf_request(0, "textDocument/definition", params, function(_, result)
+						if not result or vim.tbl_isempty(result) then return end
+						local loc = vim.islist(result) and result[1] or result
+						local uri = loc.uri or loc.targetUri
+						local range = loc.targetRange or loc.range
+						if not uri or not range then return end
+						local pbuf = vim.uri_to_bufnr(uri)
+						vim.fn.bufload(pbuf)
+						local lsp_end = range["end"] and range["end"].line or range.start.line
+						local start_line, def_end = range.start.line, lsp_end
+						local fn_types = {
+							function_definition = true, function_declaration = true,
+							method_declaration = true,  method_definition = true,
+							method = true,              singleton_method = true,
+							constructor_declaration = true, class_declaration = true,
+							class_definition = true,    function_item = true,
+							decorated_definition = true,
+						}
+						local var_types = {
+							field_declaration = true,           local_variable_declaration = true,
+							lexical_declaration = true,         variable_declaration = true,
+							let_declaration = true,             const_item = true,
+							static_item = true,                 var_declaration = true,
+							const_declaration = true,           local_declaration = true,
+							annotated_assignment = true,
+						}
+						local body_types = {
+							block = true, statement_block = true, body_statement = true,
+							compound_statement = true, function_body = true, do_block = true,
+						}
+						local ts_found = false
+						pcall(function()
+							local node = vim.treesitter.get_node({
+								bufnr = pbuf,
+								pos = { range.start.line, range.start.character or 0 },
+							})
+							while node do
+								local t = node:type()
+								if fn_types[t] or var_types[t] then
+									local sr, _, er = node:range()
+									local sig_end = er
+									if fn_types[t] then
+										for child in node:iter_children() do
+											if body_types[child:type()] then
+												local bs = child:range()
+												local body_line = vim.api.nvim_buf_get_lines(pbuf, bs, bs + 1, false)[1] or ""
+												sig_end = body_line:find("{", 1, true) and bs or math.max(sr, bs - 1)
+												break
+											end
+										end
+									end
+									start_line, def_end = sr, sig_end
+									ts_found = true
+									return
+								end
+								node = node:parent()
+							end
+						end)
+						if not ts_found and range.start.line >= lsp_end then
+							local scan = vim.api.nvim_buf_get_lines(pbuf, range.start.line, range.start.line + 30, false)
+							local depth, found_parens = 0, false
+							for i, line in ipairs(scan) do
+								for j = 1, #line do
+									local ch = line:sub(j, j)
+									if ch == "(" then depth = depth + 1; found_parens = true
+									elseif ch == ")" then depth = depth - 1 end
+								end
+								if line:match("{") then def_end = range.start.line + i - 1; break end
+								if found_parens and depth == 0 then def_end = range.start.line + i - 1; break end
+							end
+						end
+						local lines = vim.api.nvim_buf_get_lines(pbuf, start_line, def_end + 1, false)
+						local indent = math.huge
+						for _, l in ipairs(lines) do
+							if l:match("%S") then indent = math.min(indent, #(l:match("^%s*"))) end
+						end
+						indent = indent == math.huge and 0 or indent
+						local sep = string.rep("〜", 21)
+						local content = { sep, "" }
+						for _, l in ipairs(lines) do
+							table.insert(content, l:sub(indent + 1))
+						end
+						table.insert(content, "")
+						table.insert(content, sep)
+						vim.lsp.util.open_floating_preview(
+							content,
+							vim.bo[pbuf].filetype,
+							{ border = "rounded", max_height = 45, max_width = 100 }
+						)
+					end)
+				end, "[G]oto [P]eek Definition")
 				map("gO", require("fzf-lua").lsp_document_symbols, "Open Document Symbols")
 				map("gW", require("fzf-lua").lsp_live_workspace_symbols, "Open Workspace Symbols")
 				map("gt", function()

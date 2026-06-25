@@ -1,5 +1,6 @@
 return {
 	"nvim-java/nvim-java",
+    ft = "java",
     dependencies = {
        {
          "JavaHello/spring-boot.nvim",

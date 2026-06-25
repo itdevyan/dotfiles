@@ -16,6 +16,11 @@ return {
 		-- enable saving the state of plugins in the session
 		vim.opt.sessionoptions:append("globals") -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
 		vim.keymap.set("n", "<leader>fp", ":NeovimProjectHistory<CR>", { silent = true, desc = "[P]roject history" })
+		vim.keymap.set("n", "<leader>fy", function()
+			local name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+			vim.fn.setreg("+", name)
+			vim.notify("Copied: " .. name)
+		end, { silent = true, desc = "[P]roject name yank" })
 		vim.keymap.set("n", "<leader>fq", function()
 			local history = require("neovim-project.utils.history")
 			local path = require("neovim-project.utils.path")

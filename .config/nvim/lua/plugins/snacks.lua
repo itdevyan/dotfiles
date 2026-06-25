@@ -31,6 +31,23 @@ return {
       enabled = true,
     },
     dashboard = {
+      formats = {
+        file = function(item, _ctx)
+          local fname = vim.fn.fnamemodify(item.file, ":~")
+          local parts = {}
+          for part in fname:gmatch("[^/]+") do
+            table.insert(parts, part)
+          end
+          local n = #parts
+          local file = parts[n] or fname
+          local dir = n >= 3 and (parts[n - 2] .. "/" .. parts[n - 1] .. "/")
+            or n == 2 and (parts[n - 1] .. "/")
+            or ""
+          return dir ~= ""
+            and { { dir, hl = "dir" }, { file, hl = "file" } }
+            or { { file, hl = "file" } }
+        end,
+      },
       sections = {
         { pane = 1, section = "header" },
         { section = "startup", padding = 1 },

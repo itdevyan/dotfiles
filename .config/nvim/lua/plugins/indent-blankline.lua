@@ -5,23 +5,23 @@ return {
     ---@type ibl.config
     opts = function()
         local highlight = {
-            "RainbowRed",
             "RainbowYellow",
             "RainbowBlue",
             "RainbowOrange",
             "RainbowGreen",
             "RainbowViolet",
             "RainbowCyan",
+            "RainbowRed",
         }
 
         local dim_highlight = {
-            "RainbowRedDim",
             "RainbowYellowDim",
             "RainbowBlueDim",
             "RainbowOrangeDim",
             "RainbowGreenDim",
             "RainbowVioletDim",
             "RainbowCyanDim",
+            "RainbowRedDim",
         }
 
         local hooks = require("ibl.hooks")

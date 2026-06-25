@@ -129,3 +129,25 @@ vim.keymap.set("n", "<leader>2", "2gt")
 vim.keymap.set("n", "<leader>3", "3gt")
 vim.keymap.set("n", "<leader>4", "4gt")
 vim.keymap.set("n", "<leader>5", "5gt")
+
+-- Snacks dashboard in vertical split
+vim.keymap.set("n", "<leader>sv", function()
+  vim.cmd("vnew")
+  local win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_get_current_buf()
+  Snacks.dashboard.open({ win = win, buf = buf })
+  vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = buf })
+end, { desc = "Open dashboard in vertical split" })
+
+-- Snacks dashboard in horizontal split
+vim.keymap.set("n", "<leader>sh", function()
+  vim.cmd("new")
+  local win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_get_current_buf()
+  Snacks.dashboard.open({ win = win, buf = buf })
+  vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = buf })
+end, { desc = "Open dashboard in vertical split" })
+
+vim.keymap.set("n", "<leader>sn", "<cmd>vnew<cr>", { desc = "New empty vertical split" })
+vim.keymap.set("n", "<leader>sN", "<cmd>new<cr>", { desc = "New empty horizontal split" })
+
