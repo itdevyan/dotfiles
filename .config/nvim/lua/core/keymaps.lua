@@ -1,13 +1,13 @@
 -- Keymaps ====================================================================
 
 -- Toggle wrap
-vim.keymap.set("n", "<leader>ww", function()
+vim.keymap.set("n", "<leader>.w", function()
 	vim.wo.wrap = not vim.wo.wrap
 end, { desc = "Toggle wrap" })
 
 -- Delete and change to the beginning of the text
-vim.keymap.set('n', 'dh', 'd^', { desc = "Delete backwards to the beginning of the text" })
-vim.keymap.set('n', 'ch', 'c^', { desc = "Delete backwards to the beginning of the text and change" })
+vim.keymap.set("n", "dh", "d^", { desc = "Delete backwards to the beginning of the text" })
+vim.keymap.set("n", "ch", "c^", { desc = "Delete backwards to the beginning of the text and change" })
 
 -- Finding selected text
 vim.keymap.set("v", "//", 'y/<C-R>"<CR>', { desc = "Find selected text" })
@@ -17,9 +17,10 @@ vim.keymap.set("n", "<leader>o", ":!open -R %<CR>", { desc = "Open Finder" })
 
 -- Copy to clipboard
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set("n", "<leader>Y", '"+y$')
 
 -- Paste from clipboard
-vim.keymap.set("n", "<leader>p", '"+p', { desc = "Paste from clipboard" })
+vim.keymap.set({"n", "v"}, "<leader>p", '"+p', { desc = "Paste from clipboard" })
 vim.keymap.set("v", "<leader>p", '"+p', { desc = "Paste from clipboard" })
 
 -- Cut to clipboard
@@ -79,43 +80,61 @@ vim.keymap.set("n", "<leader>jdm", "<cmd>JavaTestDebugCurrentMethod<CR>", { desc
 vim.keymap.set("n", "<leader>jdv", "<cmd>DapViewOpen<CR>", { desc = "[Debug] Open Dap View UI" })
 vim.keymap.set("n", "<leader>jdV", "<cmd>DapViewClose<CR>", { desc = "[Debug] Close Dap View UI" })
 vim.keymap.set("n", "<leader>jdt", "<cmd>DapTerminate<CR>", { desc = "[Debug] Terminate" })
-vim.keymap.set("n", "<leader>jdo", function() require("dap").step_over() end, { desc = "[Debug] Step over" })
-vim.keymap.set("n", "<leader>jdb", function() require("dap").step_back() end, { desc = "[Debug] Step back" })
-vim.keymap.set("n", "<leader>jdg", function() require("dap").continue() end, { desc = "[Debug] Start/Continue debugging" })
-vim.keymap.set("n", "<leader>jds", function() require("dap").toggle_breakpoint() end, { desc = "[Debug] Toggle breakpoint" })
+vim.keymap.set("n", "<leader>jdo", function()
+	require("dap").step_over()
+end, { desc = "[Debug] Step over" })
+vim.keymap.set("n", "<leader>jdb", function()
+	require("dap").step_back()
+end, { desc = "[Debug] Step back" })
+vim.keymap.set("n", "<leader>jdg", function()
+	require("dap").continue()
+end, { desc = "[Debug] Start/Continue debugging" })
+vim.keymap.set("n", "<leader>jds", function()
+	require("dap").toggle_breakpoint()
+end, { desc = "[Debug] Toggle breakpoint" })
 
 -- Maven
 local maven_opts = table.concat({
-  "--add-opens jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
-  "--add-opens jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+	"--add-opens jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
 }, " ")
 
 local lombok = "-Dlombok.version=1.18.30"
 local function run_maven(args)
-  local cmd
-  if args == "clean" then
-    cmd = "mvn clean"
-  else
-    cmd = string.format('MAVEN_OPTS="%s" mvn %s %s', maven_opts, args, lombok)
-  end
-  vim.cmd("botright split | terminal " .. cmd)
-  vim.cmd("resize 15")
+	local cmd
+	if args == "clean" then
+		cmd = "mvn clean"
+	else
+		cmd = string.format('MAVEN_OPTS="%s" mvn %s %s', maven_opts, args, lombok)
+	end
+	vim.cmd("botright split | terminal " .. cmd)
+	vim.cmd("resize 15")
 end
 
-vim.keymap.set("n", "<leader>jmi", function() run_maven("install") end, { desc = "[Maven] Install" })
-vim.keymap.set("n", "<leader>jmI", function() run_maven("install -DskipTests") end, { desc = "[Maven] Install without test" })
-vim.keymap.set("n", "<leader>jmp", function() run_maven("package") end, { desc = "[Maven] Package" })
-vim.keymap.set("n", "<leader>jmx", function() run_maven("clean") end, { desc = "[Maven] Clean" })
-vim.keymap.set("n", "<leader>jmc", function() run_maven("compile") end, { desc = "[Maven] Compile" })
+vim.keymap.set("n", "<leader>jmi", function()
+	run_maven("install")
+end, { desc = "[Maven] Install" })
+vim.keymap.set("n", "<leader>jmI", function()
+	run_maven("install -DskipTests")
+end, { desc = "[Maven] Install without test" })
+vim.keymap.set("n", "<leader>jmp", function()
+	run_maven("package")
+end, { desc = "[Maven] Package" })
+vim.keymap.set("n", "<leader>jmx", function()
+	run_maven("clean")
+end, { desc = "[Maven] Clean" })
+vim.keymap.set("n", "<leader>jmc", function()
+	run_maven("compile")
+end, { desc = "[Maven] Compile" })
 
 -- Settings
 vim.keymap.set("n", "<leader>js", "<cmd>JavaSettingsChangeRuntime<CR>", { desc = "Change SDK version" })
@@ -132,22 +151,54 @@ vim.keymap.set("n", "<leader>5", "5gt")
 
 -- Snacks dashboard in vertical split
 vim.keymap.set("n", "<leader>sv", function()
-  vim.cmd("vnew")
-  local win = vim.api.nvim_get_current_win()
-  local buf = vim.api.nvim_get_current_buf()
-  Snacks.dashboard.open({ win = win, buf = buf })
-  vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = buf })
+	vim.cmd("vnew")
+	local win = vim.api.nvim_get_current_win()
+	local buf = vim.api.nvim_get_current_buf()
+	Snacks.dashboard.open({ win = win, buf = buf })
+	vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = buf })
 end, { desc = "Open dashboard in vertical split" })
 
 -- Snacks dashboard in horizontal split
 vim.keymap.set("n", "<leader>sh", function()
-  vim.cmd("new")
-  local win = vim.api.nvim_get_current_win()
-  local buf = vim.api.nvim_get_current_buf()
-  Snacks.dashboard.open({ win = win, buf = buf })
-  vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = buf })
+	vim.cmd("new")
+	local win = vim.api.nvim_get_current_win()
+	local buf = vim.api.nvim_get_current_buf()
+	Snacks.dashboard.open({ win = win, buf = buf })
+	vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = buf })
 end, { desc = "Open dashboard in vertical split" })
 
 vim.keymap.set("n", "<leader>sn", "<cmd>vnew<cr>", { desc = "New empty vertical split" })
 vim.keymap.set("n", "<leader>sN", "<cmd>new<cr>", { desc = "New empty horizontal split" })
 
+-- Paste without overwriting the default register
+vim.keymap.set("v", "p", '"_dP')
+
+-- Save file
+vim.keymap.set("n", "<leader>w", function()
+	vim.cmd("w")
+	vim.notify("File saved!", vim.log.levels.INFO)
+end, { desc = "Save file" })
+
+-- Save all files
+vim.keymap.set("n", "<leader>W", function()
+	vim.cmd("wa")
+	vim.notify("All files saved!", vim.log.levels.INFO)
+end, { desc = "Save all files" })
+
+-- Center screen when searching
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
+-- Move by visual lines instead of logical lines
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+
+-- Buffer navigation
+vim.keymap.set("n", "<S-l>", ":bnext<CR>")
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
+
+-- Keep cursor in place when joining lines
+vim.keymap.set("n", "J", "mzJ`z")
+
+-- Yank selected text to system clipboard on mouse release
+vim.keymap.set('v', '<LeftRelease>', '"+ygv', { silent = true })

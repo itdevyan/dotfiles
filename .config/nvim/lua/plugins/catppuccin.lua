@@ -3,6 +3,11 @@ return {
 	name = "catppuccin",
 	priority = 1000,
 	opts = {
+		custom_highlights = function()
+			return {
+				LineNr = { fg = "#6b6b7a" },
+			}
+		end,
 		default_integrations = true,
 		auto_integrations = true,
 		transparent_background = true,

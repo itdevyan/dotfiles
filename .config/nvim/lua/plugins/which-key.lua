@@ -8,6 +8,7 @@ return {
     spec = {
       { "<leader>h", name = " git/hunks" },
       { "<leader>f", name = " file/fzf" },
+      { "<leader>fy", name = " Copy Path/Reference" },
       { "<leader>g", name = " Git options" },
       { "<leader>j", name = " java/java" },
       { "<leader>jd", name = " Debug options" },
@@ -21,6 +22,7 @@ return {
       { "<leader>t", name = " Tabs" },
       { "<leader>v", name = " Videre options" },
       { "<leader>w", name = " Word Wrap" },
+      { "<leader>.", name = " Options" },
     }
   },
   keys = {

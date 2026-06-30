@@ -1,15 +1,12 @@
 return {
- "karb94/neoscroll.nvim",
-  event = "VeryLazy",
-  opts = {
-   -- <C-u>	Scroll Up	Scroll down half a screen (moves the viewport up).
-   -- <C-d>	Scroll Down	Scroll down half a screen (moves the viewport down).
-   -- <C-b>	Page Up	Scroll up a full screen (moves the viewport up).
-   -- <C-f>	Page Down	Scroll down a full screen (moves the viewport down).
-   -- <C-y>	Line Up	Scroll the window up one line (keeps the cursor position relative to the screen, but scrolls the text up).
-   -- <C-e>	Line Down	Scroll the window down one line.
-   -- zt	Top	Scrolls the current line to the top of the screen.
-   -- zz	Center	Scrolls the current line to the zenter (middle) of the screen.
-   -- zb	Bottom	Scrolls the current line to the bottom of the screen.
-  },
+  "karb94/neoscroll.nvim",
+  lazy = false,
+  config = function()
+    local ns = require("neoscroll")
+    ns.setup()
+    vim.keymap.set("n", "<C-d>", function() ns.ctrl_d({ duration = 150 }); vim.cmd("normal! zz") end)
+    vim.keymap.set("n", "<C-u>", function() ns.ctrl_u({ duration = 150 }); vim.cmd("normal! zz") end)
+    vim.keymap.set("n", "<C-f>", function() ns.ctrl_f({ duration = 250 }); vim.cmd("normal! zz") end)
+    vim.keymap.set("n", "<C-b>", function() ns.ctrl_b({ duration = 250 }); vim.cmd("normal! zz") end)
+  end,
 }
