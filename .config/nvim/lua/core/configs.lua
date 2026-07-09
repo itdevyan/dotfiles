@@ -44,6 +44,22 @@ vim.opt.undodir   = state .. "/undo//"
 vim.opt.backupdir = state .. "/backup//"
 vim.opt.undofile  = true
 
+-- 'scroll' recalculates to half-window-height on EVERY resize (statusline,
+-- tabline, plugin UI attaching, etc), not just at startup — vanilla Vim/Neovim
+-- quirk, no "sticky" flag survives it. WinScrolled fires after each resize in
+-- the tabpage, so reapplying there makes it self-heal instead of a one-shot.
+-- TabEnter/TabNew added after Oracle review (2026-07-08, neoscroll.lua round
+-- 10 verification): opening a 2nd tab adds a tabline, shrinking every window
+-- by a row -- WinScrolled does NOT fire for that specific resize, so without
+-- these two events 'scroll' silently drifts to the new half-height and stays
+-- there, corrupting the exact "8 lines per <C-d>" distance neoscroll.lua's
+-- centering math is built on.
+vim.api.nvim_create_autocmd({ "VimEnter", "WinScrolled", "TabEnter", "TabNew" }, {
+	callback = function()
+		vim.o.scroll = 8
+	end,
+})
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
