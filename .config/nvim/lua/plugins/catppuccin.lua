@@ -1,3 +1,4 @@
+--[[
 return {
 	"catppuccin/nvim",
 	name = "catppuccin",
@@ -60,3 +61,6 @@ return {
 		vim.cmd.colorscheme("catppuccin-mocha")
 	end,
 }
+]]
+
+return {}

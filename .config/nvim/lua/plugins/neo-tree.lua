@@ -37,6 +37,8 @@ return {
           enabled = true,
           leave_dirs_open = false,
         },
+        group_empty_dirs = true, -- Group empty directories together
+        scan_mode = "deep", -- Use deep scan mode for better performance
         use_libuv_file_watcher = true,
       },
     })

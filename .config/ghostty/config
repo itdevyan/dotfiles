@@ -10,7 +10,7 @@ adjust-underline-position = "10%"
 # Font decoration
 # Valid font names
 # fc-list | grep -i jetbrainsmononerdfontmono
-font-size = 16
+font-size = 15
 font-family = "JetBrainsMono Nerd Font Mono"
 #font-family = "MonoLisa Freeze" # work
 #font-family = "TX-02 Retina" # work
