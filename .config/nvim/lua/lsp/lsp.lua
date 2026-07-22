@@ -3,6 +3,7 @@ return {
 	-- nvim-lspconfig provides server config data (lsp/ directory).
 	-- On Neovim 0.11+, we use the native vim.lsp.config() + vim.lsp.enable() API.
 	"neovim/nvim-lspconfig",
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		{ "mason-org/mason.nvim", opts = {} },
 		{
@@ -11,12 +12,30 @@ return {
 				ensure_installed = { "lua_ls", "ts_ls", "jsonls", "yamlls" },
 				-- Automatically calls vim.lsp.enable() for installed servers.
 				-- Servers start lazily when a matching filetype buffer is opened.
-				automatic_enable = {
-					exclude = { "jdtls" }, -- nvim-java handles jdtls
-				},
+				automatic_enable = { "lua_ls", "ts_ls", "jsonls", "yamlls" },
 			},
 		},
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		{
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			cmd = {
+				"MasonToolsInstall",
+				"MasonToolsInstallSync",
+				"MasonToolsUpdate",
+				"MasonToolsUpdateSync",
+				"MasonToolsClean",
+			},
+			opts = {
+				ensure_installed = {
+					"stylua",
+					"flake8",
+					"prettierd",
+					"prettier",
+					"eslint",
+					"google-java-format",
+				},
+				run_on_start = false,
+			},
+		},
 
 		-- Useful status updates for LSP.
 		{ "j-hui/fidget.nvim", opts = {} },
@@ -26,6 +45,23 @@ return {
 		"saghen/blink.cmp",
 	},
 	config = function()
+		local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = true })
+		vim.api.nvim_create_autocmd("LspDetach", {
+			group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
+			callback = function(event)
+				for _, client in ipairs(vim.lsp.get_clients({ bufnr = event.buf })) do
+					if client.id ~= event.data.client_id
+						and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+						return
+					end
+				end
+
+				vim.api.nvim_buf_call(event.buf, vim.lsp.buf.clear_references)
+				vim.api.nvim_clear_autocmds({ group = highlight_augroup, buffer = event.buf })
+				vim.b[event.buf].lsp_highlight_enabled = nil
+			end,
+		})
+
 		-- LspAttach: keymaps and features that activate per-buffer
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
@@ -35,8 +71,22 @@ return {
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
-				map("[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev [D]iagnostic")
-				map("]d", function() vim.diagnostic.jump({ count = 1,  float = true }) end, "Next [D]iagnostic")
+				map("[d", function()
+					vim.diagnostic.jump({
+						count = -1,
+						on_jump = function(_, bufnr)
+							vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+						end,
+					})
+				end, "Prev [D]iagnostic")
+				map("]d", function()
+					vim.diagnostic.jump({
+						count = 1,
+						on_jump = function(_, bufnr)
+							vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+						end,
+					})
+				end, "Next [D]iagnostic")
 				map("gn", vim.lsp.buf.rename, "[R]e[n]ame")
 				map("ga", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
 				map("gr", function()
@@ -153,8 +203,10 @@ return {
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 
 				-- Document highlight on CursorHold
-				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-					local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+				if client
+					and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+					and not vim.b[event.buf].lsp_highlight_enabled then
+					vim.b[event.buf].lsp_highlight_enabled = true
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						buffer = event.buf,
 						group = highlight_augroup,
@@ -164,13 +216,6 @@ return {
 						buffer = event.buf,
 						group = highlight_augroup,
 						callback = vim.lsp.buf.clear_references,
-					})
-					vim.api.nvim_create_autocmd("LspDetach", {
-						group = vim.api.nvim_create_augroup("lsp-detach", { clear = false }),
-						callback = function(event2)
-							vim.lsp.buf.clear_references()
-							vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
-						end,
 					})
 				end
 
@@ -242,16 +287,5 @@ return {
             },
         })
 
-		-- Ensure tools are installed (formatters, linters, etc.)
-		require("mason-tool-installer").setup({
-			ensure_installed = {
-				"stylua",
-				"flake8",
-				"prettierd",
-				"prettier",
-				"eslint",
-				"google-java-format",
-			},
-		})
 	end,
 }

@@ -17,11 +17,15 @@ return {
     -- Enable treesitter highlighting, indentation, and folding per filetype,
     -- skipping large files via the existing big-file guard.
     vim.api.nvim_create_autocmd("FileType", {
+      pattern = {
+        "lua", "java", "javascript", "typescript", "typescriptreact",
+        "html", "vim", "query", "json", "xml",
+      },
       callback = function(ev)
         if utils.is_big_file(ev.buf) then
           return
         end
-        if pcall(vim.treesitter.start) then
+        if pcall(vim.treesitter.start, ev.buf) then
           vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           -- Enable treesitter-based folding (official README recommendation)
           vim.wo[0][0].foldmethod = "expr"

@@ -42,7 +42,7 @@ return {
 		}
 
 		-- auto lint on save
-		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
 			callback = function()
 				lint.try_lint()
 			end,

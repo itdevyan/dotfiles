@@ -1,14 +1,14 @@
 return {
   'nvim-lualine/lualine.nvim',
+  dependencies = { "SmiteshP/nvim-navic" },
   event = "VeryLazy",
   config = function()
     local navic = require("nvim-navic")
 
     require('lualine').setup({
-      options = {
+      -- options = {
         -- theme = 'catppuccin-mocha',
-        theme = 'tokyonight',
-      },
+      -- },
       sections = {
         lualine_c = {
           {

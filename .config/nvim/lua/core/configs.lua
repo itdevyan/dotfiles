@@ -56,7 +56,11 @@ vim.opt.undofile  = true
 -- centering math is built on.
 vim.api.nvim_create_autocmd({ "VimEnter", "WinScrolled", "TabEnter", "TabNew" }, {
 	callback = function()
-		vim.o.scroll = 8
+		for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+			if vim.api.nvim_win_get_config(win).relative == "" and vim.api.nvim_win_get_height(win) >= 8 then
+				vim.wo[win].scroll = 8
+			end
+		end
 	end,
 })
 

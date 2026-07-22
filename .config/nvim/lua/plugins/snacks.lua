@@ -27,9 +27,6 @@ return {
     scroll = { enabled = false }, -- using neoscroll.nvim instead
     statuscolumn = { enabled = false },
     words = { enabled = true },
-    lazygit = {
-      enabled = true,
-    },
     dashboard = {
       formats = {
         file = function(item, _ctx)
